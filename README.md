@@ -1,5 +1,6 @@
 # TestShop
 E-Shop Django Web-app Project
+Programmed in cooperation with [Jakub Kozioł](https://github.com/jqb1). 
 
 ## Installation:
 https://pypi.org/project/mysqlclient/
