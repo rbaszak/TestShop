@@ -1,0 +1,23 @@
+{% extends "base.html" %}
+{% block content %}
+
+<h1>Dane konta</h1>
+
+<div class="shadow p-3 mb-5 bg-white rounded" id="item" style="width: 18rem;">
+    <!--<img class="card-img-top" src="..." alt="Card image cap">-->
+    <div class="card-body">
+        <h5 class="card-title">{{ object.login }} <small>konto:{{object.wallet}}zł</small></h5>
+        {% if object.client is not None %}
+        <p>Dane dostawy</p>
+
+        <p class="list-group-item">{{object.client.name}} {{object.client.surname}}</p>
+        <p class="list-group-item">{{object.client.address.street}} {{object.client.address.house_num}}</p>
+        <p class="list-group-item">{{object.client.address.city}}</p>
+        {% endif %}
+        <a class="btn btn-info" role="button" href="{% url 'client_detail' login=request.session.login %}">Zmiana danych dostawy</a>
+    </div>
+
+</div>
+
+
+{% endblock content %}

@@ -1,0 +1,82 @@
+{% extends "base.html" %}
+{% block content %}
+
+<h1>Produkty</h1>
+{% for product in object_list %}
+{%if product.number > 0 %}
+    <div class="shadow p-3 mb-5 bg-white rounded" id="item" style="width: 20rem;">
+        <!--<img class="card-img-top" src="..." alt="Card image cap">-->
+        <div class="card-body">
+            <h5 class="card-title">{{ product.name }}</h5>
+            <p class="card-text">{{ product.category }}</p>
+        </div>
+        <ul class="list-group list-group-flush">
+            <li class="list-group-item">{{ product.price }} zł</li>
+            <li class="list-group-item">ilość: {{ product.number}}</li>
+
+        </ul>
+        <div class="card-body">
+            <a class="btn btn-info" role="button" href="{% url 'buy' product_id=product.id %}">Kup
+            </a>
+            <button type="button" onclick="addToCart({{product.id}})" class="btn btn-outline-success">Dodaj do koszyka
+            </button>
+            {% if request.session.admin %}
+                <a href="{% url 'delete_product' product_id=product.id %}">
+                    <input type="image" src="eshop/static/icon-deletelink.svg"/>
+                </a>
+            {% endif%}
+        </div>
+
+    </div>
+{% endif %}
+{%if product.number == 0 %}
+    <div class="shadow p-3 mb-5 bg-white rounded" id="item2" style="width: 20rem;">
+        <!--<img class="card-img-top" src="..." alt="Card image cap">-->
+        <div class="card-body">
+            <h5 class="card-title">{{ product.name }}</h5>
+            <p class="card-text">{{ product.category }}</p>
+        </div>
+        <ul class="list-group list-group-flush">
+            <li class="list-group-item">{{ product.price }} zł</li>
+            <li class="list-group-item">ilość: {{ product.number}}</li>
+
+        </ul>
+        <div class="card-body">
+            <a class="btn btn-info" role="button">Tymczasowo niedostępny
+            </a>
+            <button type="button" onclick="addToCart({{product.id}})" class="btn btn-outline-success">Dodaj do koszyka
+            </button>
+            {% if request.session.admin %}
+                <a href="{% url 'delete_product' product_id=product.id %}">
+                    <input type="image" src="eshop/static/icon-deletelink.svg"/>
+                </a>
+            {% endif%}
+        </div>
+
+    </div>
+{%endif%}
+
+{% endfor %}
+
+{% if is_paginated %}
+<ul class="pagination justify-content-center">
+    {% if page_obj.has_previous %}
+    <li class="page-item">
+        <span><a class="page-link" href="?page={{ page_obj.previous_page_number }}">Poprzednia</a></span>
+    </li>
+    {% endif %}
+    <li class="page-item">
+        {% for i in paginator.page_range %}
+    <li class="page-item"><a class="page-link" href="?page={{i}}">{{i}}</a></li>
+    {% endfor %}
+    </li>
+    {% if page_obj.has_next %}
+    <li class="page-item">
+        <span><a class="page-link" href="?page={{ page_obj.next_page_number }}">Następna</a></span>
+    </li>
+    {% endif %}
+</ul>
+
+{% endif %}
+
+{% endblock content %}

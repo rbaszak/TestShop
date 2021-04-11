@@ -1,0 +1,65 @@
+{% extends 'base.html' %}
+{% load crispy_forms_tags %}
+{% block content %}
+<h1>Zamówienie</h1>
+
+<div class="shadow p-3 mb-5 bg-white rounded" id="item" style="width: 20rem;">
+    <!--<img class="card-img-top" src="..." alt="Card image cap">-->
+    <div class="card-body">
+        <h5 class="card-title">{{ object.name }}
+            <small>{{object.category}}</small>
+        </h5>
+
+        <p class="list-group-item" id="price">{{object.price}}zł</p>
+        <p class="list-group-item" id="available">dostępna ilość: {{object.number}}</p>
+
+        <form method="POST">
+            {% csrf_token %}
+            <div class="form-group row">
+                <label for="number_of_products" class="col-2 col-form-label">Ilość</label>
+                <div class="col-10">
+                    <input class="form-control" name="number" type="number" value="1" min="0" max={{object.number}}
+                           id="number_of_products">
+                    <input type='hidden' value='{{ object.id }}' name='product_id'>
+                    <input type='hidden' value='' name='price_out' id='price_out'>
+                </div>
+            </div>
+            {% if request.session.login %}
+            <button class="btn btn-info" role="button" type="submit" id="kup">Kup</button>
+            {% else %}
+            <a class="btn btn-info" role="button" href="{% url 'login' %}"> Zaloguj się aby kupić</a>
+            {% endif %}
+        </form>
+
+    </div>
+
+    <script>
+
+        document.getElementById("number_of_products").addEventListener('change', doThing);
+        window.addEventListener("load", checkPrice);
+
+        function doThing(){
+
+            document.getElementById("price").innerHTML = parseFloat(this.value * {{object.price}}) + "zł";
+            var price_out = document.getElementById("price_out").value
+            price_out = parseFloat(this.value * {{object.price}});
+            document.getElementById("price_out").value = price_out;
+            if(price_out > {{request.session.wallet}}){
+                document.getElementById("kup").innerHTML = 'Stan konta niewystarczający'
+            }
+        }
+        function checkPrice(){
+            var price_out = document.getElementById("price_out").value
+            price_out = parseFloat({{object.price}});
+            document.getElementById("price_out").value = price_out;
+            if(price_out > {{request.session.wallet}}){
+                document.getElementById("kup").innerHTML = 'Stan konta niewystarczający'
+            }
+        }
+
+    </script>
+
+</div>
+
+</div>
+{% endblock content %}

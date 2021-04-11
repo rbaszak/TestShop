@@ -1,0 +1,17 @@
+.bg-blue {
+    background: #4c6798;
+}
+.navbar-dark .navbar-nav .nav-link {
+    color: #f8f9fa;
+}
+.shadow {
+    box-shadow: 0 0.1rem 1rem rgba(0,0,0,.15)!important;
+}
+a.btn.btn-info{
+    background-color:#ca3e4b;
+    border-color: #ca3e4b;
+}
+button.btn.btn-info{
+    background-color:#ca3e4b;
+    border-color: #ca3e4b;
+}
